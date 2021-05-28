@@ -31,27 +31,31 @@ const App = () => {
       <Switch>
         <div>
           {!user ? (
-            <Login />
+            <Route path="/" exact={true}>
+              <Login />
+            </Route>
           ) : (
             <>
-              <Navbar user={user} />
-              <Home
-                searchInput={search}
-                handleChange={(e) => setSearch(e.target.value)}
-                repo={repo}
-                clear={() => {
-                  setRepo([]);
-                  setSearch("");
-                }}
-                handleClick={searchUser}
-              />
+              <Route path="/" exact={true}>
+                <Navbar user={user} />
+                <Home
+                  searchInput={search}
+                  handleChange={(e) => setSearch(e.target.value)}
+                  repo={repo}
+                  clear={() => {
+                    setRepo([]);
+                    setSearch("");
+                  }}
+                  handleClick={searchUser}
+                />
+              </Route>
               {repo.length === 0 ? (
                 <Route path="/user" exact={true}>
                   <Error404 />
                 </Route>
               ) : (
                 <Route path="/user" exact={true}>
-                  <Navbar navDetail="Back To Search" navLink="/" />
+                  <Navbar user={user} redirect="go back" />
                   <Detail data={repo} repo={userRepo} />
                 </Route>
               )}

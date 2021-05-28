@@ -1,5 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "./Details.css";
+import Pagination from "../Pagination/Pagination";
 import Repo from "./Repo";
 
 const Detail = ({ data, repo }) => {
@@ -18,6 +19,14 @@ const Detail = ({ data, repo }) => {
     public_gists,
     hireable,
   } = data;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [repoPerPage] = useState(5);
+
+  const indexOfLastRepo = currentPage * repoPerPage;
+  const indexOfFirstRepo = indexOfLastRepo - repoPerPage;
+  const currentRepo = repo.slice(indexOfFirstRepo, indexOfLastRepo);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <Fragment>
@@ -91,7 +100,12 @@ const Detail = ({ data, repo }) => {
         </div>
         <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
-      {repo.slice(0, 5).map((repo) => (
+      <Pagination
+        repoPerPage={repoPerPage}
+        totalRepo={repo.length}
+        paginate={paginate}
+      />
+      {currentRepo.map((repo) => (
         <>
           <Repo repo={repo} />
         </>

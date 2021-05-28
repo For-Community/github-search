@@ -2,7 +2,7 @@ import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
-const Navbar = ({ navDetail, navLink, user, logout }) => {
+const Navbar = ({ navDetail, navLink, user, redirect }) => {
   return (
     <div className="nav">
       <input type="checkbox" id="nav-check" />
@@ -35,10 +35,12 @@ const Navbar = ({ navDetail, navLink, user, logout }) => {
           Welcome, <strong>{user?.displayName}</strong>{" "}
           <Avatar
             src={user?.photoURL}
-            onClick={logout}
             type="submit"
             style={{ marginLeft: 20, cursor: "pointer" }}
           />
+          <Link to="/">
+            <strong style={{ margin: 10 }}>{redirect}</strong>
+          </Link>
         </p>
       </div>
     </div>
